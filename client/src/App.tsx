@@ -1,6 +1,9 @@
 import { Navbar } from "./components/Navbar/Navbar";
+import { Folders } from "./components/Folders/Folders";
+import { Home } from "./components/Home/Home";
 
 import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -9,8 +12,10 @@ function App() {
     <>
       <div>
         <Navbar />
-        <h1>NOTEBOOK</h1>
-        <p>Things I learn.</p>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/folders" element={<Folders />} />
+        </Routes>
       </div>
     </>
   );
