@@ -10,7 +10,9 @@ const Navbar = () => {
         <li>
           <Link to={"/folders"}>Browse Folders</Link>
         </li>
-        <li>Create Form</li>
+        <li>
+          <Link to={"/create-note"}>Create a note</Link>
+        </li>
         <li>Misc.</li>
       </ul>
     </div>

@@ -1,0 +1,15 @@
+.note_form__container {
+  display: flex;
+  flex-direction: column;
+
+  .form__container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-size: 18px;
+      font-weight: 900;
+    }
+  }
+}
