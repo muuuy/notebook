@@ -14,7 +14,7 @@ func main() {
 	}
 
 	// Start the server
-	if err := server.Start(); err != nil {
-		log.Fatalf("Server error: %v", err)
+	if err := server.Start(cfg); err != nil { // Assuming server.Start returns an error
+		log.Fatalf("Error starting server: %v", err)
 	}
 }
