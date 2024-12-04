@@ -15,6 +15,10 @@ type User struct {
 	Email string `json:"email"`
 }
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+}
+
 // Set up ID and User store
 var nextID = 1
 var users = []User{}
@@ -35,6 +39,9 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
+
+	enableCors(&w)
+
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return

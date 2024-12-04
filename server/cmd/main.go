@@ -12,6 +12,10 @@ import (
 	"os"
 )
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:5173/")
+}
+
 func getRoot(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("got / request\n")
 	io.WriteString(w, "This is my website!\n")
@@ -23,6 +27,7 @@ func getHello(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
 	// Load configuration
 	cfg, err := config.LoadConfig()
 	if err != nil {
