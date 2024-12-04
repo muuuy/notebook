@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"notepad/internal/config"
+	"notepad/internal/handlers"
 	"notepad/internal/server"
 	"os"
 )
@@ -35,6 +36,8 @@ func main() {
 
 	http.HandleFunc("/", getRoot)
 	http.HandleFunc("/hello", getHello)
+
+	handlers.RegisterUserRoutes()
 
 	err = http.ListenAndServe("127.0.0.1:3000", nil)
 
