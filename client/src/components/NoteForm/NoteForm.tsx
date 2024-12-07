@@ -27,24 +27,28 @@ const NoteForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const res = await fetch("http://localhost:3000/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: formInfo.title,
-        email: formInfo.folder,
-      }),
-    });
+    try {
+      const res = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formInfo.title,
+          email: formInfo.folder,
+        }),
+      });
 
-    if (!res.ok) {
-      const errorMessage = await res.text();
-      console.log("Error creating user: ", errorMessage);
-      return;
+      if (!res.ok) {
+        const errorMessage = await res.text();
+        console.log("Error creating user: ", errorMessage);
+        return;
+      }
+
+      console.log("submitted");
+    } catch (err) {
+      console.log(err);
     }
-
-    console.log("submitted");
   };
 
   return (

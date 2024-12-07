@@ -7,6 +7,8 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+
+	"fmt"
 )
 
 type User struct {
@@ -15,8 +17,8 @@ type User struct {
 	Email string `json:"email"`
 }
 
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+func enableCors(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json")
 }
 
 // Set up ID and User store
@@ -40,7 +42,9 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 
-	enableCors(&w)
+	w.Header().Set("Content-Type", "application/json")
+
+	fmt.Println("Why isn't this shit working?")
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
