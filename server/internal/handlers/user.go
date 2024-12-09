@@ -17,8 +17,16 @@ type User struct {
 	Email string `json:"email"`
 }
 
-func enableCors(w http.ResponseWriter) {
+func enableCors(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")                   // Allow all origins (use specific origins for production)
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS") // Allowed HTTP methods
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")       // Allowed headers
+
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 }
 
 // Set up ID and User store
@@ -42,7 +50,7 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "application/json")
+	enableCors(w, r)
 
 	fmt.Println("Why isn't this shit working?")
 
