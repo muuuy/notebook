@@ -17,27 +17,20 @@ type User struct {
 	Email string `json:"email"`
 }
 
-func enableCors(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")                   // Allow all origins (use specific origins for production)
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS") // Allowed HTTP methods
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")       // Allowed headers
+// func enableCors(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Access-Control-Allow-Origin", "*")                   // Allow all origins (use specific origins for production)
+// 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS") // Allowed HTTP methods
+// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")       // Allowed headers
 
-	if r.Method == http.MethodOptions {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-}
+// 	if r.Method == http.MethodOptions {
+// 		w.WriteHeader(http.StatusOK)
+// 		return
+// 	}
+// }
 
 // Set up ID and User store
 var nextID = 1
 var users = []User{}
-
-func RegisterUserRoutes() {
-	http.HandleFunc("GET /users", GetUsers)
-	http.HandleFunc("GET /users/{id}", GetUserByID)
-	http.HandleFunc("POST /users", CreateUser)
-}
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("List of users"))
@@ -50,7 +43,14 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 
-	enableCors(w, r)
+	w.Header().Set("Access-Control-Allow-Origin", "*")              // Allow all origins (use specific origins for production)
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS") // Allowed HTTP methods
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")  // Allowed headers
+
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 
 	fmt.Println("Why isn't this shit working?")
 
@@ -84,4 +84,10 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newUser)
+}
+
+func RegisterUserRoutes() {
+	http.HandleFunc("GET /users", GetUsers)
+	http.HandleFunc("GET /users/{id}", GetUserByID)
+	http.HandleFunc("POST /users", CreateUser)
 }
