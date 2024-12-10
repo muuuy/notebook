@@ -6,9 +6,8 @@ package handlers
 
 import (
 	"encoding/json"
-	"net/http"
-
 	"fmt"
+	"net/http"
 )
 
 type User struct {
@@ -16,17 +15,6 @@ type User struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
-
-// func enableCors(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Access-Control-Allow-Origin", "*")                   // Allow all origins (use specific origins for production)
-// 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS") // Allowed HTTP methods
-// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")       // Allowed headers
-
-// 	if r.Method == http.MethodOptions {
-// 		w.WriteHeader(http.StatusOK)
-// 		return
-// 	}
-// }
 
 // Set up ID and User store
 var nextID = 1
@@ -42,17 +30,6 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Access-Control-Allow-Origin", "*")              // Allow all origins (use specific origins for production)
-	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS") // Allowed HTTP methods
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")  // Allowed headers
-
-	if r.Method == http.MethodOptions {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-
-	fmt.Println("Why isn't this shit working?")
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -81,13 +58,9 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	users = append(users, newUser)
 
+	fmt.Print(newUser)
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newUser)
-}
-
-func RegisterUserRoutes() {
-	http.HandleFunc("GET /users", GetUsers)
-	http.HandleFunc("GET /users/{id}", GetUserByID)
-	http.HandleFunc("POST /users", CreateUser)
 }

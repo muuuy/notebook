@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"notepad/internal/config"
 	"notepad/internal/handlers"
+	"notepad/internal/middleware"
 	"notepad/internal/server"
 	"os"
 )
@@ -35,13 +36,19 @@ func main() {
 		log.Fatalf("Error starting server: %v", err)
 	}
 
-	http.HandleFunc("/", getRoot)
-	http.HandleFunc("/hello", getHello)
+	// CREATE NEW ServeMux
+	mux := http.NewServeMux()
 
-	handlers.RegisterUserRoutes()
+	mux.HandleFunc("/", getRoot)
+	mux.HandleFunc("/hello", getHello)
+	mux.HandleFunc("GET /users", handlers.GetUsers)
+	mux.HandleFunc("GET /users/{id}", handlers.GetUserByID)
+	mux.HandleFunc("POST /users", handlers.CreateUser)
 
-	err = http.ListenAndServe("127.0.0.1:3000", nil)
+	handlersWithMiddleware := middleware.CORSMiddleware(mux)
 
+	// Start the HTTP server
+	err = http.ListenAndServe("127.0.0.1:3000", handlersWithMiddleware)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("server  closed\n")
 	} else if err != nil {
