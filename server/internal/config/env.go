@@ -7,6 +7,14 @@ import (
 	"strings"
 )
 
+// loadEnvFile loads the environment file and sets environment variables.
+//
+// Parameters:
+//   - filepath (string): The environment file's path
+//
+// Returns:
+//   - error: Returns an error if an error occurs
+//   - nil: If everything goes right, return nothing
 func loadEnvFile(filepath string) error {
 	file, err := os.Open(filepath)
 
